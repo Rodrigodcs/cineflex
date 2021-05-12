@@ -1,28 +1,36 @@
-import {Wrapper} from "./MovieSelectorStyles"
-import {MovieCard} from "./MovieSelectorStyles"
-import {Orientation} from "./MovieSelectorStyles"
+import {Wrapper, MovieCard, Orientation} from "./MovieSelectorStyles"
+import {Link} from "react-router-dom"
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 export default function MovieSelector(){
-    const arrayMovies=[
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"},
-        {name:"enola holmes", image:"https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"}
-    ]
+	const [movies, setMovies] = useState([]);
+
+	useEffect(() => {
+		const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/cineflex/movies");
+
+		request.then(response => {
+            console.log(response)
+			setMovies(response.data);
+		});
+	}, []);
+
+    if(movies.length===0){
+        return <Orientation>Carregando</Orientation>
+    }
 
     return (
         <>
             <Orientation>Selecione o filme</Orientation>
-            <Wrapper>
-                {arrayMovies.map(m => <MovieCard><img src={m.image}/></MovieCard>)}
+            <Wrapper> 
+                {movies.map(m => 
+                    <Link to={`/filme/${m.id}`}>
+                        <MovieCard>
+                            <img src={m.posterURL} alt=""/>
+                        </MovieCard>
+                    </Link>
+                )}
             </Wrapper>
         </>
     );
 } 
-//<img src="https://javiu.files.wordpress.com/2020/09/enola.jpg?w=479"/>

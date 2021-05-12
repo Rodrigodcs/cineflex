@@ -11,10 +11,11 @@ export const Orientation = styled.h2`
 `;
 
 export const Wrapper = styled.section`
-margin:0 auto;
+    margin:0 auto;
     margin-top:50px;
     display:flex;
     flex-wrap:wrap;
+    max-width:400px;
     gap:10px 30px;
     align-items:center;
     justify-content:center;

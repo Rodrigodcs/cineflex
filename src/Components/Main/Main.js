@@ -5,11 +5,19 @@ import SessionSelector from "../SessionSelector/SessionSelector"
 import SeatsSelector from "../SeatsSelector/SeatsSelector"
 import Success from "../Success/Success"
 import {GlobalStyle} from "./GlobalStyle"
-
+import { useState } from 'react';
 
 
 
 export default function Main(){
+    const [request, setRequest] = useState({});
+    function changeRequest(name,cpf,ids){
+        setRequest({
+            ids:ids,
+            name:name,
+            cpf:cpf
+        })
+    }
 
     return (
         <>
@@ -20,14 +28,14 @@ export default function Main(){
                     <Route path="/" exact>
                         <MovieSelector/>
                     </Route>
-                    <Route path="/session" exact>
+                    <Route path="/filme/:movieId" exact>
                         <SessionSelector/>
                     </Route>
-                    <Route path="/seats" exact>
-                        <SeatsSelector/>
+                    <Route path="/sessao/:sessionId" exact>
+                        <SeatsSelector change={changeRequest}/>
                     </Route>
-                    <Route path="/success" exact>
-                        <Success/>
+                    <Route path="/sucesso" exact>
+                        <Success request={request}/>
                     </Route>
                 </Switch>
             </Router>

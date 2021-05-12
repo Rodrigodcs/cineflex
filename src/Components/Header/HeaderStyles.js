@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Title= styled.h1`
-    color:#E8833A;
-    text-align:center;
-    font-size:34px;
-    line-height:40px;
+  color:#E8833A;
+  text-align:center;
+  font-size:34px;
+  line-height:40px;
 `;
 
 export const Wrapper = styled.section`
