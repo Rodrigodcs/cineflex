@@ -11,11 +11,11 @@ import { useState } from 'react';
 
 export default function Main(){
     const [request, setRequest] = useState({});
-    function changeRequest(name,cpf,ids){
+    function changeRequest(userInfo,movieInfo,seatsSelected){
         setRequest({
-            ids:ids,
-            name:name,
-            cpf:cpf
+            userInfo:userInfo,
+            movieInfo:movieInfo,
+            seatsSelected:seatsSelected
         })
     }
 

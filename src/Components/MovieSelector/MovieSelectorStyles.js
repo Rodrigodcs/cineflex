@@ -32,3 +32,15 @@ export const MovieCard = styled.section`
         max-height:100%;
     }
 `;
+export const Loading = styled.section`
+    margin:0 auto;
+    margin-top:100px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    img{
+        width:100px;
+        height:100px;
+        margin-bottom:-100px;
+    }
+`;

@@ -12,7 +12,7 @@ export const Orientation = styled.h2`
 
 export const Wrapper = styled.section`
     margin:0 auto;
-    margin-top:50px;
+    margin-top:20px;
     display:flex;
     flex-direction:column;
     max-width:400px;
@@ -58,15 +58,53 @@ export const Legend = styled.section`
     }
 `;
 
-export const Reserv = styled.button`
-    margin-top:50px;
-    height: 26px;
-    width: 100px;
-    color:black;
-    line-height: 12px;
-    font-size: 11px;
-    line-height: 13px;
-    text-align: center;
-    letter-spacing: 0.04em;
+export const Info = styled.section`
+    margin-top:20px;
+    width:323px;
+    p{
+        font-size: 18px;
+        line-height: 21px;
+        color: #293845;
+    }
+    input{
+        width:100%;
+        height: 51px;
+        border: 1px solid #D5D5D5;
+        box-sizing: border-box;
+        border-radius: 3px;
+        margin-bottom:10px;
+        margin-top:5px;
+        font-size: 18px;
+        line-height: 21px;
+        color: #293845;
+        padding-left:15px;
+    }
+`;
 
+export const OrangeButton= styled.button`
+    margin-top:10px;
+    margin-bottom:120px;
+    width: 225px;
+    height: 42px;
+    border: 1px solid #D5D5D5;
+    box-sizing: border-box;
+    background: #E8833A;
+    border-radius: 3px;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+`;
+
+export const Loading = styled.section`
+    margin:0 auto;
+    margin-top:100px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    img{
+        width:100px;
+        height:100px;
+        margin-bottom:-100px;
+    }
 `;

@@ -1,4 +1,4 @@
-import {Wrapper, MovieCard, Orientation} from "./MovieSelectorStyles"
+import {Wrapper, MovieCard, Orientation, Loading} from "./MovieSelectorStyles"
 import {Link} from "react-router-dom"
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -16,7 +16,15 @@ export default function MovieSelector(){
 	}, []);
 
     if(movies.length===0){
-        return <Orientation>Carregando</Orientation>
+        return (
+            <>
+                <Orientation>Selecione o filme</Orientation>
+                <Loading>
+                    <img src="https://static.wixstatic.com/media/31a3a0_9bc23fcac19142cfa2d7bcecc1986f23~mv2_d_1331_1332_s_2.gif" alt=""/>
+                    <Orientation>CARREGANDO FILMES</Orientation>
+                </Loading>
+            </>
+        )
     }
 
     return (
