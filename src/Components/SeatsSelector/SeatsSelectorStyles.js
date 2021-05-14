@@ -25,7 +25,7 @@ export const SeatsWrapper = styled.section`
     flex-wrap:wrap;
     gap:18px 7px;
 `;
-
+ 
 export const Seat = styled.button`
     height: 26px;
     width: 26px;
@@ -61,6 +61,12 @@ export const Legend = styled.section`
 export const Info = styled.section`
     margin-top:20px;
     width:323px;
+    h2{
+        margin-top:15px;
+        font-size: 20px;
+        line-height: 21px;
+        color: #8DD7CF;
+    }
     p{
         font-size: 18px;
         line-height: 21px;
@@ -83,7 +89,7 @@ export const Info = styled.section`
 
 export const OrangeButton= styled.button`
     margin-top:10px;
-    margin-bottom:120px;
+    margin-bottom:150px;
     width: 225px;
     height: 42px;
     border: 1px solid #D5D5D5;

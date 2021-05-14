@@ -1,22 +1,22 @@
 import {Orientation, Wrapper, Info, OrangeButton, Loading} from "./SuccessStyles"
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
 export default function Success(props){
     const [successScreen, setSuccessScreen] = useState(false);
+    let history = useHistory();
 
-    console.log(props.request)
     useEffect(()=>{
-        const reservRequest={
-            ids:props.request.seatsSelected.map(s=> s.id),
-            name:props.request.userInfo.name,
-            cpf:props.request.userInfo.CPF
-        }
-        const request = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/cineflex/seats/book-many`,reservRequest)
+        const request = axios.post(`
+            https://mock-api.bootcamp.respondeai.com.br/api/v2/cineflex/seats/book-many
+        `,props.request.req)
         request.then((response)=>{
-            console.log(response)
             setSuccessScreen(true)
+        })
+        request.catch((response)=>{
+            alert("Não foi possivel realizar a reserva!")
+            history.goBack();
         })
     },[])
 
@@ -43,20 +43,17 @@ export default function Success(props){
             </Info>
             <Info>
                     <h3>Ingressos</h3>
-                    {props.request.seatsSelected.map(s=><p>Assento {s.name}</p>)}
+                    {props.request.seats.map((s,i)=><p key={i}>Assento {s}</p>)}
             </Info>
             <Info>
-                    <h3>Comprador</h3>
-                    <p>
-                        Nome: {props.request.userInfo.name}<br/>
-                        CPF: {props.request.userInfo.CPF}
-                    </p>
+                    <h3>Comprador(es)</h3>
+                    {props.request.req.compradores.map((s,i)=><p key={i}>
+                        Nome: {s.nome}<br/>
+                        CPF: {s.cpf}
+                    </p>)}
             </Info>
-
             <Link to={`/`}><OrangeButton>Voltar pra Home</OrangeButton></Link>
         </Wrapper>
-
-        
         </>
     );
 } 

@@ -12,7 +12,9 @@ export const Orientation = styled.h2`
 
 export const Wrapper = styled.section`
     margin:0 auto;
+    padding: 0 10px;
     margin-top:50px;
+    margin-bottom:150px;
     max-width:400px;
     display:flex;
     flex-direction:column;
@@ -23,7 +25,6 @@ export const Wrapper = styled.section`
 export const SessionWrapper = styled.section`
     display:flex;
     flex-direction:column;
-
     p{
         color:#293845;
         font-size:20px;

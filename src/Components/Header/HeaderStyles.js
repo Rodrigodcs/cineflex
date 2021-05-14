@@ -20,3 +20,18 @@ export const Wrapper = styled.section`
   justify-content:center;
   height:67px;
 `;
+
+export const BackArrow= styled.div`
+  position:fixed;
+  top:21px;
+  left: 25px;
+  padding-top:3px;
+  display:${props => props.show};
+  align-items:center;
+  justify-content:center;
+  background-color:#E8833A;
+  border-radius:5px;
+  box-shadow:0 0 5px grey;
+  width:40px;
+  height:25px;
+`;

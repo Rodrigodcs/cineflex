@@ -45,7 +45,7 @@ export const Info = styled.div`
 
 export const OrangeButton= styled.button`
     margin-top:10px;
-    margin-bottom:120px;
+    margin-bottom:50px;
     width: 225px;
     height: 42px;
     border: 1px solid #D5D5D5;

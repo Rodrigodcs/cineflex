@@ -1,53 +1,90 @@
 import {Orientation, Wrapper, SeatsWrapper, Legend, Seat, OrangeButton, Info, Loading} from "./SeatsSelectorStyles"
-import {useParams, Link} from "react-router-dom"
+import {useParams, useHistory} from "react-router-dom"
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import Footer from "../Footer/Footer"
 
 export default function SeatsSelector(props){
     const {sessionId} = useParams();
     const [seats,setSeats]=useState([])
     const [movieInfo,setMovieInfo]=useState({})
-    const [name,setName]=useState("")
-    const [CPF,setCPF]=useState("")
+    let history = useHistory();
 
     useEffect(()=>{
-        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/cineflex/showtimes/${sessionId}/seats`)
-        request.then((response)=>{
-            console.log(response)
-            setMovieInfo({movie:response.data.movie,day:response.data.day,session:response.data.name})
-            const temp=response.data.seats
-            temp.forEach(i => i.selected=false)
+        const request = axios.get(`
+            https://mock-api.bootcamp.respondeai.com.br/api/v2/cineflex/showtimes/${sessionId}/seats
+        `)
+        request.then(({data})=>{
+            setMovieInfo({
+                movie:data.movie,
+                day:data.day,
+                session:data.name
+            })
+            const temp=data.seats
+            temp.forEach(i => {
+                i.selected=false; 
+                i.customer=""; 
+                i.customerCPF=""
+            })
+            request.catch(response =>{
+                console.log(response)
+                alert("Ocorreu um erro inesperado")
+                history.goBack();
+            }) 
             setSeats(temp)
         })
     },[])
 
     function select(seatId){
-        seats.forEach(seat=> {if(seat.id===seatId){seat.selected=true}})
+        seats.forEach(seat=> {
+            if(seat.id===seatId){
+                seat.selected=true;
+                seat.customer="";
+                seat.customerCPF="";
+            }
+        })
         setSeats([...seats])
     }
-    function deselect(seatId){
-        seats.forEach(seat=> {if(seat.id===seatId){seat.selected=false}})
-        setSeats([...seats])
+
+    function deselect(seatId,name){
+        if(window.confirm("Desmarcar assento "+name)){
+            seats.forEach(seat=> {if(seat.id===seatId){seat.selected=false}})
+            setSeats([...seats])
+        }
     }
-    function createRequest(){
-        console.log(seats)
-        const sSelected=seats.filter(s=> s.selected)
-        const mInfo = movieInfo;
-        const uInfo={name:name,CPF:CPF};
-        props.change(uInfo,mInfo,sSelected)
-    }
-    function nameChange(event){
-        setName(event.target.value)
-    }
-    function CPFChange(event){
-        setCPF(event.target.value)
-    }
+
     function alertUser(seatName){
         alert("O assento "+seatName+" está indisponivel")
     }
 
-    console.log(movieInfo)
+    function createRequest(){
+        const sSelected=seats.filter(s=> s.selected)
+        props.change({
+            ids:sSelected.map(s=>s.id),
+            compradores:sSelected.map(s=> ({
+                idAssento:s.id , 
+                nome:s.customer , 
+                cpf:s.customer
+            }))
+        },sSelected.map(s=> s.name),movieInfo)
+        history.push(`/sucesso`)
+    }
+
+    function nameChange(event,id){
+        seats.forEach((s)=> {
+            if(s.id===id){
+                s.customer=event.target.value
+            }});
+        setSeats([...seats])
+    }
+    function cpfChange(event,id){
+        seats.forEach((s)=> {
+            if(s.id===id){
+                s.customerCPF=event.target.value
+            }});
+        setSeats([...seats])
+    }
+
     if(seats.length===0){
         return (
             <>
@@ -57,7 +94,7 @@ export default function SeatsSelector(props){
                 </Loading>
             </>
         )}
-    return (
+    return ( 
         <>  
         <Orientation>Selecione o(s) assento(s)</Orientation>
         <Wrapper>
@@ -65,9 +102,9 @@ export default function SeatsSelector(props){
                 {seats.map(s => 
                     s.isAvailable?
                         (s.selected?
-                            <Seat selected onClick={()=>deselect(s.id)}>{s.name}</Seat>
-                            :<Seat onClick={()=>select(s.id)}>{s.name}</Seat>)
-                    :<Seat unavaliable onClick={()=>alertUser(s.name)}>{s.name}</Seat>
+                            <Seat key={s.id} selected onClick={()=>deselect(s.id,s.name)}>{s.name}</Seat>
+                            :<Seat key={s.id} onClick={()=>select(s.id)}>{s.name}</Seat>)
+                    :<Seat key={s.id} unavaliable onClick={()=>alertUser(s.name)}>{s.name}</Seat>
                 )}
             </SeatsWrapper>
             <Legend>
@@ -76,13 +113,21 @@ export default function SeatsSelector(props){
                 <div><Seat unavaliable></Seat><p>indisponível</p></div>
             </Legend>
             <Info>
-                <p>Nome do comprador:</p>
-                <input type="text" placeHolder="Digite seu nome..." onChange={nameChange} value={name}/>
-                <p>CPF do comprador:</p>
-                <input type="text" placeHolder="Digite seu CPF..." onChange={CPFChange} value={CPF}/>
+                {seats.filter(s=>s.selected).map(s=> 
+                    <div key={s.id}>
+                        <h2>Assento: {s.name}</h2>
+                        <p>Nome do comprador:</p>
+                        <input type="text" placeholder="Digite seu nome..." 
+                            onChange={(e)=>nameChange(e,s.id)} value={s.customer}/>
+                        <p>CPF do comprador:</p>
+                        <input type="text" placeholder="Digite seu CPF..." 
+                            onChange={(e)=>cpfChange(e,s.id)} value={s.customerCPF}/>
+                    </div>
+                )}
+                
             </Info>
 
-            <Link to={`/sucesso`} onClick={()=>createRequest()}><OrangeButton>Reservar assento(s)</OrangeButton></Link>
+            <OrangeButton onClick={()=>createRequest()}>Reservar assento(s)</OrangeButton>
             
         </Wrapper>
         <Footer info={movieInfo} page3={true}/>

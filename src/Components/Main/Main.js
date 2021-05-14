@@ -8,25 +8,29 @@ import {GlobalStyle} from "./GlobalStyle"
 import { useState } from 'react';
 
 
-
 export default function Main(){
+    const [backArrow, setBackArrow] = useState("flex");
     const [request, setRequest] = useState({});
-    function changeRequest(userInfo,movieInfo,seatsSelected){
+    function changeRequest(req,seats,movieInfo){
         setRequest({
-            userInfo:userInfo,
-            movieInfo:movieInfo,
-            seatsSelected:seatsSelected
+            req:req,
+            seats:seats,
+            movieInfo:movieInfo
         })
+    }
+
+    function changeBackArrow(info){
+        setBackArrow(info)
     }
 
     return (
         <>
             <GlobalStyle />
-            <Header/>
+            <Header show={backArrow}/>
             <Router>
                 <Switch>
                     <Route path="/" exact>
-                        <MovieSelector/>
+                        <MovieSelector changeBackArrow={changeBackArrow}/>
                     </Route>
                     <Route path="/filme/:movieId" exact>
                         <SessionSelector/>
