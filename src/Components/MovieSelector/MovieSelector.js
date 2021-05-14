@@ -17,7 +17,7 @@ export default function MovieSelector(props){
             alert("Ocorreu um erro inesperado")
             history.goBack();
         }) 
-	}, []);
+	}, [history,props]);
 
     if(movies.length===0){
         return (

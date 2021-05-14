@@ -33,7 +33,7 @@ export default function SeatsSelector(props){
             }) 
             setSeats(temp)
         })
-    },[])
+    },[history,sessionId])
 
     function select(seatId){
         seats.forEach(seat=> {

@@ -18,7 +18,7 @@ export default function Success(props){
             alert("Não foi possivel realizar a reserva!")
             history.goBack();
         })
-    },[])
+    },[history,props])
 
     if(!successScreen){
         return (

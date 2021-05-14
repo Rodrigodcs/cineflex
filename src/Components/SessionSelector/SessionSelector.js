@@ -27,7 +27,7 @@ export default function SessionSelector(){
             alert("Ocorreu um erro inesperado")
             history.goBack();
         })
-    },[])
+    },[history,movieId])
 
     if(sessions.length===0){
         return (
