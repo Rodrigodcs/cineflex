@@ -64,7 +64,7 @@ export default function SeatsSelector(props){
             compradores:sSelected.map(s=> ({
                 idAssento:s.id , 
                 nome:s.customer , 
-                cpf:s.customer
+                cpf:s.customerCPF
             }))
         },sSelected.map(s=> s.name),movieInfo)
         history.push(`/sucesso`)
